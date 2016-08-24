@@ -25,9 +25,6 @@ In your project's Gruntfile, add a section named `yaml_resolver` to the data obj
 ```js
 grunt.initConfig({
   yaml_resolver: {
-    options: {
-      // Task-specific options go here.
-    },
     your_target: {
       // Target-specific file lists and/or options go here.
     },
@@ -36,47 +33,38 @@ grunt.initConfig({
 ```
 
 ### Options
-
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+There are currently no options to configure the resolver. It takes the file(s) in the file glob and resolves all remote and relative references, leaving local references in tact, and then writes the file out to the dist directory.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Simple YAML File
+In this example, the YAML input file has no references. The resolver makes minor (and inconsequential) changes due to YAML-JS conversion utilities, and then writes the new file to the tmp directory.
 
 ```js
 grunt.initConfig({
   yaml_resolver: {
-    options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      expand: true,
+      src: ['./simple.yaml'],
+      dest: 'tmp'
     },
   },
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### YAML file in sub-directory
+In this example, the YAML file is in a sub-directory relative to the Gruntfile.js. By specifying the cwd property in the files object, the resolver can parse any relative references properly and write them out into the master output file.
+
+NOTE: Do NOT simply put 'test/fixtures/simple.yaml' in the src property! The resolver will be unable to process relative references if you do so.
 
 ```js
 grunt.initConfig({
   yaml_resolver: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      expand: true,
+      cwd: 'test/fixtures',
+      src: ['./simple.yaml'],
+      dest: 'tmp'
     },
   },
 });
