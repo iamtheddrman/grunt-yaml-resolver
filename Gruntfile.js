@@ -31,8 +31,6 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     yaml_resolver: {
       simple_yaml: {
-        options: {
-        },
         files: [
           {
             expand: true,

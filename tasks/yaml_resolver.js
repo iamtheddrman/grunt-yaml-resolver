@@ -12,7 +12,6 @@ var resolve = require('json-refs').resolveRefs;
 var YAML = require('yaml-js');
 var _ = require('lodash');
 var fs = require('fs');
-var path = require('path');
 
 module.exports = function(grunt) {
 
@@ -43,12 +42,7 @@ module.exports = function(grunt) {
               // callback(null, YAML.load(res.text));
             }
           },
-          relativeBase: 'test/fixtures'
-          // refPreProcessor: function (content) {
-          //   content.$ref = path.resolve(path.dirname(src), content.$ref);
-          //   content.$ref = path.relative(process.cwd(), content.$ref);
-          //   return content;
-          // }
+          relativeBase: filePair.orig.cwd
         };
         resolve(root, options).then(function (results) {
           // Write the destination file.
